@@ -6,10 +6,16 @@ import random
 def play(player1, player2, num_games, verbose=False):
     p1_prev_play = ""
     p2_prev_play = ""
+
+    p2_history = []
+
     results = {"p1": 0, "p2": 0, "tie": 0}
 
-    for _ in range(num_games):
-        p1_play = player1(p2_prev_play)
+    for i in range(num_games):
+        if verbose:
+            print(f"--------- game {i} --------")
+
+        p1_play = player1(p2_prev_play, p2_history, verbose)
         p2_play = player2(p1_prev_play)
 
         if p1_play == p2_play:

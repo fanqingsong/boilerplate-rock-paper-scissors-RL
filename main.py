@@ -3,9 +3,16 @@ from RPS_game import play, mrugesh, abbey, quincy, kris, human, random_player
 from RPS import player
 from unittest import main
 
-play(player, quincy, 1000)
+print("--------- you vs quincy ----------")
+play(player, quincy, 1000, verbose=False)
+
+print("--------- you vs abbey ----------")
 play(player, abbey, 1000)
+
+print("--------- you vs kris ----------")
 play(player, kris, 1000)
+
+print("--------- you vs mrugesh ----------")
 play(player, mrugesh, 1000)
 
 # Uncomment line below to play interactively against a bot:
