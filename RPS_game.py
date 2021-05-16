@@ -7,6 +7,7 @@ def play(player1, player2, num_games, verbose=False):
     p1_prev_play = ""
     p2_prev_play = ""
 
+    p1_history = []
     p2_history = []
 
     results = {"p1": 0, "p2": 0, "tie": 0}
@@ -15,7 +16,7 @@ def play(player1, player2, num_games, verbose=False):
         if verbose:
             print(f"--------- game {i} --------")
 
-        p1_play = player1(p2_prev_play, p2_history, verbose)
+        p1_play = player1(p2_prev_play, p2_history, p1_prev_play, p1_history, num_games, verbose)
         p2_play = player2(p1_prev_play)
 
         if p1_play == p2_play:
@@ -52,7 +53,6 @@ def play(player1, player2, num_games, verbose=False):
 
 
 def quincy(prev_play, counter=[0]):
-
     counter[0] += 1
     choices = ["R", "R", "P", "P", "S"]
     return choices[counter[0] % len(choices)]

@@ -7,10 +7,10 @@ print("--------- you vs quincy ----------")
 play(player, quincy, 1000, verbose=False)
 
 print("--------- you vs abbey ----------")
-play(player, abbey, 1000)
+play(player, abbey, 10000, verbose=False)
 
 print("--------- you vs kris ----------")
-play(player, kris, 1000)
+play(player, kris, 10000)
 
 print("--------- you vs mrugesh ----------")
 play(player, mrugesh, 1000)

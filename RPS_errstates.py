@@ -8,28 +8,20 @@ import numpy as np
 reference:
 https://github.com/raul1991/rock-paper-scissors-RL
 
-state should be opponent's play, last N plays is better
-https://stats.stackexchange.com/questions/291906/can-reinforcement-learning-be-stateless
-
-Note: this code implement last one state, but for abbey and kris, the wining rate is not improved appearantly.
-but in most times, it can beat all players.
-
+result
 --------- you vs quincy ----------
-Final results: {'p1': 386, 'p2': 140, 'tie': 474}
-Player 1 win rate: 73.38403041825094%
+Final results: {'p1': 393, 'p2': 10, 'tie': 597}
+Player 1 win rate: 97.51861042183623%
 --------- you vs abbey ----------
-Final results: {'p1': 3525, 'p2': 3306, 'tie': 3169}
-Player 1 win rate: 51.60298638559509%
+Final results: {'p1': 501, 'p2': 498, 'tie': 1}
+Player 1 win rate: 50.150150150150154%
 --------- you vs kris ----------
-Final results: {'p1': 3295, 'p2': 3262, 'tie': 3443}
-Player 1 win rate: 50.251639469269485%
+Final results: {'p1': 0, 'p2': 0, 'tie': 1000}
+Player 1 win rate: 0%
 --------- you vs mrugesh ----------
-Final results: {'p1': 609, 'p2': 230, 'tie': 161}
-Player 1 win rate: 72.58641239570917%
+Final results: {'p1': 841, 'p2': 159, 'tie': 0}
+Player 1 win rate: 84.1%
 
-
-state can also be designed as WIN LOSE TIE
-https://github.com/dennylslee/rock-paper-scissors-DeepRL
 
 """
 
@@ -88,6 +80,14 @@ class Bot(object):
 
         return action
 
+    def get_action(self, player_move):
+        if self.verbose:
+            print("Get action....")
+
+        action = np.argmax(self.q_table[player_move])
+
+        return action
+
     def get_reward(self, player, bot):
         reward = 0
 
@@ -102,9 +102,8 @@ class Bot(object):
         return reward
 
     # update q_table
-    def update_experience(self, state, action, reward, player_next_move):
-        reward_next_move = np.max(self.q_table[player_next_move])
-        delta = self.alpha * (reward + self.gamma * reward_next_move - self.q_table[state, action])
+    def update_experience(self, state, action, reward):
+        delta = self.alpha * (reward + self.gamma * np.max(self.q_table[action]) - self.q_table[state, action])
         self.q_table[state, action] += delta
 
     def print_stats(self, player, bot, reward):
@@ -129,15 +128,14 @@ class Bot(object):
     def get_avg_rewards(self):
         return self.avg_rewards_list
 
-    def learn(self, player_move, bot_move, player_next_move):
+    def learn(self, player_move):
         # add reward
+        bot_move = self.bot_move(player_move)
         reward = self.get_reward(player_move, bot_move)
-
         self.total_reward += reward
         self.avg_rewards_list.append(reward)
-
         # update experience
-        self.update_experience(player_move, bot_move, reward, player_next_move)
+        self.update_experience(player_move, bot_move, reward)
         self.print_stats(player_move, bot_move, reward)
 
 
@@ -147,7 +145,7 @@ class Bot(object):
 bot_player = None
 
 
-def player(opponent_prev_play, opponent_history, me_prev_play, me_history, num_games, verbose=False):
+def player(prev_play, opponent_history=[], verbose=False):
     # print("call player")
     # print(prev_play)
     # print(len(opponent_history))
@@ -158,33 +156,18 @@ def player(opponent_prev_play, opponent_history, me_prev_play, me_history, num_g
     win_dict = {"R": "P", "P": "S", "S": "R"}
 
     if len(opponent_history) == 0:
-        bot_player = Bot(verbose=verbose, episodes=num_games)
+        bot_player = Bot(verbose=False)
 
     # suppose opponent's play is R, before real first round
-    opponent_prev_play_index = 0
+    prev_play_index = 0
 
-    if opponent_prev_play in play_list:
-        if len(opponent_history) > 0:
-            opponent_prev_prev_play = opponent_history[-1]
-            opponent_prev_prev_play_index = play_list.index(opponent_prev_prev_play)
+    if prev_play in play_list:
+        opponent_history.append(prev_play)
+        prev_play_index = play_list.index(prev_play)
 
-        opponent_history.append(opponent_prev_play)
-        opponent_prev_play_index = play_list.index(opponent_prev_play)
+    bot_player.learn(prev_play_index)
 
-    if me_prev_play in play_list:
-        if len(me_history) > 1:
-            me_prev_prev_play = me_history[-1]
-            me_prev_prev_play_index = play_list.index(me_prev_prev_play)
-
-        me_history.append(me_prev_play)
-
-    if len(opponent_history) >= 3:
-        state = opponent_prev_prev_play_index
-        next_state = opponent_prev_play_index
-        action = me_prev_prev_play_index
-        bot_player.learn(state, action, next_state)
-
-    me_play_index = bot_player.bot_move(opponent_prev_play_index)
+    me_play_index = bot_player.get_action(prev_play_index)
 
     if verbose:
         print(f"opponent most possible next play is {me_play_index}")
