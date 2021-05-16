@@ -29,17 +29,6 @@ For example, here is how you would call the function if you want `player` and `q
 play(player, quincy, 1000, verbose=True)
 ```
 
-Click the "run" button and `main.py` will run.
-
-### Testing 
-
-The unit tests for this project are in `test_module.py`. We imported the tests from `test_module.py` to `main.py` for your convenience. If you uncomment the last line in `main.py`, the tests will run automatically whenever you hit the "run" button.
-
-### Submitting
-
-Copy your project's URL and submit it to freeCodeCamp.
-
-
 ### result
 
 ```
@@ -66,7 +55,6 @@ Player 1 win rate: 50.251639469269485%
 Final results: {'p1': 609, 'p2': 230, 'tie': 161}
 Player 1 win rate: 72.58641239570917%
 
-
 ```
 
-### 
+
