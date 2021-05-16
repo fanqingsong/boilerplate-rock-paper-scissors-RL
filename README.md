@@ -43,17 +43,30 @@ Copy your project's URL and submit it to freeCodeCamp.
 ### result
 
 ```
+
+reference:
+https://github.com/raul1991/rock-paper-scissors-RL
+
+state should be opponent's play, last N plays is better
+https://stats.stackexchange.com/questions/291906/can-reinforcement-learning-be-stateless
+
+Note: this code implement last one state, but for abbey and kris, the wining rate is not improved appearantly.
+but in most times, it can beat all players.
+
 --------- you vs quincy ----------
-Final results: {'p1': 749, 'p2': 103, 'tie': 148}
-Player 1 win rate: 87.91079812206573%
+Final results: {'p1': 386, 'p2': 140, 'tie': 474}
+Player 1 win rate: 73.38403041825094%
 --------- you vs abbey ----------
-Final results: {'p1': 331, 'p2': 392, 'tie': 277}
-Player 1 win rate: 45.78146611341632%
+Final results: {'p1': 3525, 'p2': 3306, 'tie': 3169}
+Player 1 win rate: 51.60298638559509%
 --------- you vs kris ----------
-Final results: {'p1': 455, 'p2': 398, 'tie': 147}
-Player 1 win rate: 53.341148886283705%
+Final results: {'p1': 3295, 'p2': 3262, 'tie': 3443}
+Player 1 win rate: 50.251639469269485%
 --------- you vs mrugesh ----------
-Final results: {'p1': 776, 'p2': 187, 'tie': 37}
-Player 1 win rate: 80.5815160955348%
+Final results: {'p1': 609, 'p2': 230, 'tie': 161}
+Player 1 win rate: 72.58641239570917%
+
 
 ```
+
+### 
